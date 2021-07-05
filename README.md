@@ -1,54 +1,54 @@
-# basic-auth
+# bearer-auth
 
-# basic-auth
+## LAB -07 Bearer Authorization
 
-## LAB -06 Authentication
+- <a href= class=""><span      class="label">go to heroku app </span></a>
 
-- <a href=https://rrr5643.herokuapp.com/ class=""><span      class="label">go to heroku app </span></a>
+- <a href=https://github.com/RulaAlqasem/bearer-auth class=""><span class="label">go to gitHub </span></a>
 
-- <a href=https://github.com/RulaAlqasem/basic-auth class=""><span class="label">go to gitHub </span></a>
-
-- <a href=https://github.com/RulaAlqasem/basic-auth/pull/1 class=""><span class="label"> pull request </span></a>
+- <a href=https://github.com/RulaAlqasem/bearer-auth/pull/1 class=""><span class="label"> pull request </span></a>
 
 ## Over-view
 
-- Authentication System Phase 1: Deploy an Express server that implements Basic Authentication, with signup and signin capabilities, using a Mongo database for storage.
+- auth-server is able to allow a user to create an account as well as to handle Basic Authentication (user provides a username + password). When a “good” login happens, the user is considered to be “authenticated” and our auth-server generates a JWT signed “Token” which is returned to the application
 
-### As a user, I want to create a new account(signup) so that I may later login
+### Requirements
 
-- Using a tool such as httpie, postman, or a web form:
-- Make a POST request to the/signup route with username and password
-- Your server should support both JSON and FORM data as input
-- On a successful account creation, return a 201 status with the user object in the body
-- On any error, trigger your error handler with an appropriate error.
+In this phase, the new requirement is that any user that has successfully logged in using basic authentication (username and password) is able to continuously authenticate … using a “token”
 
-### As a user, I want to login to my account so that I may access protected information
+### As a user, I want to use my token to access routes that require a valid user
 
-- Using a tool such as httpie, postman, or a web form:
-- Make a POST request to the /signin route
-- Send a basic authentication header with a properly encoded username and password combination
-- On a successful account login, return a 200 status with the user object in the body
-- On any error, trigger your error handler with the message “Invalid Login”
+- Using httpie or postman, send a request to a “protected” route, such as /secretstuff
+- Your request must send an “Authorization” header, with the value of Bearer TOKEN
+- TOKEN is the token that you would have returned to the user after their signin step (above)
+- If the TOKEN is valid (i.e. if it represents an actual user)
+- The route should function as it normally would (sending a response)
+  -If not Send the user an error message stating “Invalid Login”
 
-### Testing
+#### ask 1: Fix The Bugs
 
-### You should manually test your routes using httpie from the command line or an application such as Postman or Insomnia. Additionally, you are required to write automated tests as well:
+- You will notice, by both attempting to start the server, as well as to run the tests … this server is a bit bug-ridden. Before you can tackle the task of securing the tokens, you must first get the server running.
 
-- POST to /signup to create a new user
-- POST to /signin to login as a user (use basic auth)
-- Need tests for auth middleware and the routes
-  Does the middleware function (send it a basic header)
+- Tests have been written for you. When they are all passing, you’re mostly there
+- Perform a manual validation of the server as well, so that you can be assured that you can interact with it as required
 
-  Do the routes assert the requirements (signup/signin)
+### Task 2: Secure the JWT Tokens
 
-- This is going to require more “end to end” testing that you’ve done in the past
+- Implement any 2 of these security measures, or any other measure that you can think of or have researched. Use a configuration option for these (i.e. an env setting) so that your system can handle multiple authorization schemes and easily turn them off/on
 
-  To test signin, your tests actually need to create a user first, then try and login, so there’s a dependency built in
-
-- Ensure that you use supergoose to test your routes and your database
+**Some ideas**:
+Add support for the creation and usage of time sensitive (valid for 15 minutes) JWTs
+Add support for the creation and usage of ‘single-use’ JWTs
+With every authenticated access, re-send a new JWT token as a cookie or header
+Disable those that you’ve already authenticated
+Implement Sessions
+Rather than store a user’s information in the token, create a “session” with an “id”
+On the server, store lookup information in a session model using that ID
+Sessions should timeout or be invalidated in some automated fashion
+Add an additional layer of encryption
 
 ### Documentation
 
 - Compose a UML or Process/Data Flow Diagram for every application
 
-![WhiteBoard](./lab6uml.png)
+![WhiteBoard](lab7uml.png)
