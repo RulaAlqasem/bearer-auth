@@ -2,7 +2,7 @@
 
 ## LAB -07 Bearer Authorization
 
-- <a href= class=""><span      class="label">go to heroku app </span></a>
+- <a href=https://rulaalqasem-server-deploy-dev.herokuapp.com class=""><span      class="label">go to heroku app </span></a>
 
 - <a href=https://github.com/RulaAlqasem/bearer-auth class=""><span class="label">go to gitHub </span></a>
 
